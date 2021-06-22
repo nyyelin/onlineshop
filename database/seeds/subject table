@@ -1,0 +1,59 @@
+subject table 
+
+-name -> myan / eng mnmn/ 
+
+Admin
+
+Bus Company
+->id
+->name [eg . shwe la min]
+->phone no [091111111]
+->Logo [photo]
+->owner_name [eg . U Hla]
+->address [eg . ygn]
+
+
+{Delete ticket table}
+{Add city table}
+
+cities
+->id
+->name [ eg . Yangon ]
+
+Bus Type
+->id
+->name [ simple / vip / vvip ]
+
+
+Route
+->id
+->departure_station [ city_id ]
+->arrival_station [ city_id ]
+->departure_time [ 11:00 AM ]
+->price [ for 1 person => 100000 ]
+->bus_type_id
+->seat [ 20 ] ->total seats for one car
+
+
+
+Travler Info
+->id
+->user_id [ call from user table ]
+->phone no [ 091111111 ]
+->address [ yangon ]
+
+
+
+Booking Detail
+->id
+->travel_info_id [ 1 ]
+->route_id
+->number of people [ 2 / 3 ]
+->total
+->seat no [ no.1 / no.11 ]
+->departure_date [ 2.09.2020 ]
+
+
+
+
+
