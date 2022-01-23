@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
-
+use App\Http\Resources\CategoryResource;
 class CategoryController extends Controller
 {
     /**
@@ -16,7 +16,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return response()->json($categories);
+        $data = CategoryResource::collection($categories);
+        return response()->json($data);
     }
 
     /**
@@ -37,7 +38,24 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'photo' => 'required'
+        ]);
+
+        if($request->hasFile('photo')){
+            $name = time().$request->photo->getClientOriginalName();
+            $filepath = $request->file('photo')->storeAs('category',$name,'public');
+            $photo = '/storage/'.$filepath;
+        } else {
+            $photo = $request->photo;
+        }
+        $category = new Category;
+        $category->name = $request->name;
+        $category->photo = $photo;
+        $category->save();
+        $data = new CategoryResource($category);
+        return response()->json($data);
     }
 
     /**
@@ -48,7 +66,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::find($id);
+        $data = new CategoryResource($category);
+        return response()->json($data);
     }
 
     /**
@@ -71,7 +91,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return response()->json($request);
+        if($request->hasFile('photo')){
+            $name = time().$request->photo->getClientOriginalName();
+            $filepath = $request->file('photo')->storeAs('category',$name,'public');
+            $photo = '/storage/'.$filepath;
+        } else {
+            $photo = $request->photo;
+        }
+        $category = Category::findOrFail($id);
+        $category->name = $request->name;
+        $category->photo = $photo;
+        $category->save();
+        $data = new CategoryResource($category);
+        
     }
 
     /**
