@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Customer;
+
 class RegisterController extends Controller
 {
     /*
@@ -75,11 +76,11 @@ class RegisterController extends Controller
         ]);
         // dd($user->id);
 
-        $imageName = time().'.'.$data['photo']->extension();
+        $imageName = time() . '.' . $data['photo']->extension();
 
-        $data['photo']->move(public_path('frontend/image/profile/'),$imageName);
+        $data['photo']->move(public_path('frontend/image/profile/'), $imageName);
 
-        $path = 'frontend/image/profile/'.$imageName;
+        $path = 'frontend/image/profile/' . $imageName;
 
 
         $user_detail = new Customer;
@@ -94,6 +95,5 @@ class RegisterController extends Controller
 
         $user->assignRole('Customer');
         return $user;
-
     }
 }

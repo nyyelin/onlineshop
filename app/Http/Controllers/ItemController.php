@@ -18,8 +18,7 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::all();
-        // dd($items);
-        return view('backend.items.index',compact('items'));
+        return view('backend.items.index', compact('items'));
     }
 
     /**
@@ -32,7 +31,7 @@ class ItemController extends Controller
         $brands = Brand::all();
         $subcategories = Subcategory::all();
 
-        return view('backend.items.create',compact('brands','subcategories'));
+        return view('backend.items.create', compact('brands', 'subcategories'));
     }
 
     /**
@@ -43,41 +42,39 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
-
         // Validation
-    $request->validate([
-        "codeno" => 'required|min:4',
-        "name" => 'required',
-        "price" => 'required',
-        "discount" => 'required',
-        "description" => 'required',
-        "photo" => 'required',
-        "brand" => 'required',
-        "subcategory" => 'required'
-    ]);
+        $request->validate([
+            "codeno" => 'required|min:4',
+            "name" => 'required',
+            "price" => 'required',
+            "discount" => 'required',
+            "description" => 'required',
+            "photo" => 'required',
+            "brand" => 'required',
+            "subcategory" => 'required'
+        ]);
 
-    // If include file, upload file
-    $imageName = time().'.'.$request->photo->extension();
+        // If include file, upload file
+        $imageName = time() . '.' . $request->photo->extension();
 
-    $request->photo->move(public_path('backend/itemimg'),$imageName);
+        $request->photo->move(public_path('backend/itemimg'), $imageName);
 
-    $path = 'backend/itemimg/'.$imageName;
-    // Data insert
-    $item = new Item;
-    // col name from database
-    $item->codeno = $request->codeno;
-    $item->name = $request->name;
-    $item->photo = $path;
-    $item->price = $request->price;
-    $item->discount = $request->discount;
-    $item->description = $request->description;
-    $item->brand_id = $request->brand;
-    $item->subcategory_id = $request->subcategory;
-    $item->save();
+        $path = 'backend/itemimg/' . $imageName;
+        // Data insert
+        $item = new Item;
+        // col name from database
+        $item->codeno = $request->codeno;
+        $item->name = $request->name;
+        $item->photo = $path;
+        $item->price = $request->price;
+        $item->discount = $request->discount;
+        $item->description = $request->description;
+        $item->brand_id = $request->brand;
+        $item->subcategory_id = $request->subcategory;
+        $item->save();
 
-    // redirect
-    return redirect()->route('items.index');
+        // redirect
+        return redirect()->route('items.index');
     }
 
     /**
@@ -101,7 +98,7 @@ class ItemController extends Controller
     {
         $brands = Brand::all();
         $subcategories = Subcategory::all();
-        return view('backend.items.edit',compact('brands','subcategories','item'));
+        return view('backend.items.edit', compact('brands', 'subcategories', 'item'));
     }
 
     /**
@@ -130,12 +127,12 @@ class ItemController extends Controller
 
         // file upload, if data
         if ($request->hasFile('photo')) {
-           $imageName = time().'.'.$request->photo->extension();
+            $imageName = time() . '.' . $request->photo->extension();
 
-            $request->photo->move(public_path('backend/itemimg'),$imageName);
+            $request->photo->move(public_path('backend/itemimg'), $imageName);
 
-            $path = 'backend/itemimg/'.$imageName; 
-        }else{
+            $path = 'backend/itemimg/' . $imageName;
+        } else {
             $path = $request->oldphoto;
         }
 
@@ -163,23 +160,7 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         // delete method
-        dd($item);
         $item->delete();
         return redirect()->route('items.index');
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

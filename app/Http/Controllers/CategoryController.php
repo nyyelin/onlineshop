@@ -88,7 +88,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-         $request->validate([
+        $request->validate([
             'name' => 'required',
             'photo' => 'required|sometimes',
         ]);
@@ -118,6 +118,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->back();
     }
 }

@@ -39,7 +39,6 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         //
-        // dd($request);
         $request->validate([
             'name' => 'required',
             'photo' => 'required',
@@ -79,7 +78,6 @@ class BrandController extends Controller
      */
     public function edit(Brand $brand)
     {
-        //
         return view('backend.brands.edit',compact('brand'));
     }
 
